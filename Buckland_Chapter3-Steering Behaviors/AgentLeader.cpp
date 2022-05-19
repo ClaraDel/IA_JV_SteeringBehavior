@@ -21,6 +21,7 @@ AgentLeader::AgentLeader(GameWorld* world,
 		scale)
 {
 	Steering()->WanderOn();
+	this->SetScale(Vector2D(10, 10));
 }
 
 

@@ -6,10 +6,7 @@ protected :
 
 	bool controlKey = false;
 	//Vector2D getVehicleAcceleration();
-
-	Vector2D m_offset;
 	Vehicle* m_leader;
-	Vehicle* m_target;
 
 public :
 	AgentPoursuiveur(GameWorld* world,
@@ -24,6 +21,8 @@ public :
 			Vehicle* agent_leade);
 
 	~AgentPoursuiveur();
+
+	Vehicle* GetAgentLeader();
 
 };
 

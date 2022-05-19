@@ -68,8 +68,12 @@ GameWorld::GameWorld(int cx, int cy):
   m_Vehicles.push_back(pLeader);
   m_pCellSpace->AddEntity(pLeader);
 
-  for (int a = 0; a <20; ++a)
+  for (int a = 0; a <20; a++)
   {
+      //determine a random starting position
+      Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+          cy / 2.0 + RandomClamped() * cy / 2.0);
+
       AgentPoursuiveur* pVehicle = new AgentPoursuiveur(this,
           SpawnPos,                 //initial position
           RandFloat() * TwoPi,        //start rotation
@@ -85,7 +89,10 @@ GameWorld::GameWorld(int cx, int cy):
 
       //add it to the cell subdivision
       m_pCellSpace->AddEntity(pVehicle);
-
+      
+      pVehicle->Steering()->SeparationOn();
+      pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(-0.1, 0));
+      
   }
   /*//setup the agents
   for (int a=0; a<Prm.NumAgents; ++a)
@@ -117,7 +124,7 @@ GameWorld::GameWorld(int cx, int cy):
 
 #define SHOAL
 #ifdef SHOAL
-  m_Vehicles[Prm.NumAgents-1]->Steering()->FlockingOff();
+/* m_Vehicles[Prm.NumAgents - 1]->Steering()->FlockingOff();
   m_Vehicles[Prm.NumAgents-1]->SetScale(Vector2D(10, 10));
   m_Vehicles[Prm.NumAgents-1]->Steering()->WanderOn();
   m_Vehicles[Prm.NumAgents-1]->SetMaxSpeed(70);
@@ -127,7 +134,7 @@ GameWorld::GameWorld(int cx, int cy):
   {
     m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
 
-  }
+  }*/
 #endif
  
   //create any obstacles or walls

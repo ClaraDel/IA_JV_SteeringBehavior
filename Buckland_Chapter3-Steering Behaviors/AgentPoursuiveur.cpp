@@ -13,4 +13,14 @@ AgentPoursuiveur::AgentPoursuiveur(GameWorld* world,
 	Vehicle* agent_leader) : Vehicle(world, position, rotation, velocity, mass, max_force, max_speed, max_turn_rate, scale)
 {
 	this->m_leader = agent_leader;
+
+
+}
+
+
+
+AgentPoursuiveur::~AgentPoursuiveur(){}
+
+Vehicle* AgentPoursuiveur::GetAgentLeader() {
+	return m_leader;
 }
