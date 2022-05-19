@@ -1,0 +1,28 @@
+﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Vehicle.cpp
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(234,11): warning C4018: '>': signed/unsigned mismatch
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(228): message : while compiling class template member function 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const'
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(265): message : see reference to function template instantiation 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const' being compiled
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(262): message : while compiling class template member function 'void CellSpacePartition<Vehicle *>::UpdateEntity(const entity &,Vector2D)'
+          with
+          [
+              entity=Vehicle *
+          ]
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\Vehicle.cpp(107): message : see reference to function template instantiation 'void CellSpacePartition<Vehicle *>::UpdateEntity(const entity &,Vector2D)' being compiled
+          with
+          [
+              entity=Vehicle *
+          ]
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\Vehicle.cpp(107): message : see reference to class template instantiation 'CellSpacePartition<Vehicle *>' being compiled
+  SteeringBehaviors.cpp
+  Path.cpp
+  GameWorld.cpp
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(234,11): warning C4018: '>': signed/unsigned mismatch
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(228): message : while compiling class template member function 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const'
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(249): message : see reference to function template instantiation 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const' being compiled
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(130): message : while compiling class template member function 'CellSpacePartition<Vehicle *>::CellSpacePartition(double,double,int,int,int)'
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(46): message : see reference to function template instantiation 'CellSpacePartition<Vehicle *>::CellSpacePartition(double,double,int,int,int)' being compiled
+C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(46): message : see reference to class template instantiation 'CellSpacePartition<Vehicle *>' being compiled
+  Generating Code...
+Vector2d.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  Steering.vcxproj -> C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\Debug\Steering.exe
