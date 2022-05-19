@@ -12,6 +12,9 @@
 #include "misc/WindowUtils.h"
 #include "misc/Stream_Utility_Functions.h"
 
+#include "AgentPoursuiveur.h"
+#include "AgentLeader.h"
+
 
 #include "resource.h"
 
@@ -48,7 +51,43 @@ GameWorld::GameWorld(int cx, int cy):
   double border = 30;
   m_pPath = new Path(5, border, border, cx-border, cy-border, true); 
 
-  //setup the agents
+  Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+      cy / 2.0 + RandomClamped() * cy / 2.0);
+  Vehicle* pLeader = nullptr;
+  pLeader = new AgentLeader(this,
+      SpawnPos,                 //initial position
+      RandFloat() * TwoPi,        //start rotation
+      Vector2D(0, 0),            //velocity
+      Prm.VehicleMass,          //mass
+      Prm.MaxSteeringForce,     //max force
+      Prm.MaxSpeed / 2,             //max velocity
+      Prm.MaxTurnRatePerSecond, //max turn rate
+      Prm.VehicleScale);        //scale
+
+
+  m_Vehicles.push_back(pLeader);
+  m_pCellSpace->AddEntity(pLeader);
+
+  for (int a = 0; a <20; ++a)
+  {
+      AgentPoursuiveur* pVehicle = new AgentPoursuiveur(this,
+          SpawnPos,                 //initial position
+          RandFloat() * TwoPi,        //start rotation
+          Vector2D(0, 0),            //velocity
+          Prm.VehicleMass,          //mass
+          Prm.MaxSteeringForce,     //max force
+          Prm.MaxSpeed,             //max velocity
+          Prm.MaxTurnRatePerSecond, //max turn rate
+          Prm.VehicleScale,		 //Scale
+          m_Vehicles.back()); //Vehicle to pursuit
+
+      m_Vehicles.push_back(pVehicle);
+
+      //add it to the cell subdivision
+      m_pCellSpace->AddEntity(pVehicle);
+
+  }
+  /*//setup the agents
   for (int a=0; a<Prm.NumAgents; ++a)
   {
 
@@ -73,7 +112,7 @@ GameWorld::GameWorld(int cx, int cy):
 
     //add it to the cell subdivision
     m_pCellSpace->AddEntity(pVehicle);
-  }
+  }*/
 
 
 #define SHOAL

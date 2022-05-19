@@ -20,7 +20,8 @@ public :
 			double    max_force,
 			double    max_speed,
 			double    max_turn_rate,
-			double    scale);
+			double    scale,
+			Vehicle* agent_leade);
 
 	~AgentPoursuiveur();
 
