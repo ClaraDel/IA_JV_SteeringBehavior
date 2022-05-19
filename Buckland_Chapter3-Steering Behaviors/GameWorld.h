@@ -122,6 +122,10 @@ public:
   void        SetCrosshair(POINTS p);
   void        SetCrosshair(Vector2D v){m_vCrosshair=v;}
 
+
+  void Pursuit();
+  void Protect(); 
+
   int   cxClient()const{return m_cxClient;}
   int   cyClient()const{return m_cyClient;}
  

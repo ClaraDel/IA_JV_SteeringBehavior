@@ -91,35 +91,9 @@ GameWorld::GameWorld(int cx, int cy):
       m_pCellSpace->AddEntity(pVehicle);
       
       pVehicle->Steering()->SeparationOn();
-      pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(-0.1, 0));
+      pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(Prm.OffsetDistance, 0));
       
   }
-  /*//setup the agents
-  for (int a=0; a<Prm.NumAgents; ++a)
-  {
-
-    //determine a random starting position
-    Vector2D SpawnPos = Vector2D(cx/2.0+RandomClamped()*cx/2.0,
-                                 cy/2.0+RandomClamped()*cy/2.0);
-
-
-    Vehicle* pVehicle = new Vehicle(this,
-                                    SpawnPos,                 //initial position
-                                    RandFloat()*TwoPi,        //start rotation
-                                    Vector2D(0,0),            //velocity
-                                    Prm.VehicleMass,          //mass
-                                    Prm.MaxSteeringForce,     //max force
-                                    Prm.MaxSpeed,             //max velocity
-                                    Prm.MaxTurnRatePerSecond, //max turn rate
-                                    Prm.VehicleScale);        //scale
-
-    pVehicle->Steering()->FlockingOn();
-
-    m_Vehicles.push_back(pVehicle);
-
-    //add it to the cell subdivision
-    m_pCellSpace->AddEntity(pVehicle);
-  }*/
 
 
 #define SHOAL
@@ -267,6 +241,38 @@ void GameWorld::CreateObstacles()
   }
 }
 
+//--------------------------- Pursuit -----------------------------
+//
+
+//------------------------------------------------------------------------
+void GameWorld::Pursuit()
+{
+    for (int i = 1; i < Prm.NumAgents; i++)
+    {
+        m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[i-1], Vector2D(Prm.OffsetDistance, 0));
+    }
+}
+
+
+//--------------------------- Protect -----------------------------
+//
+
+//------------------------------------------------------------------------
+void GameWorld::Protect()
+{
+    double current_Angle = 0;
+
+    for (int i = 1; i < Prm.NumAgents/2; i++)
+    {
+        double angleRadian = current_Angle * (Pi / 180);
+
+        int xPos = 50 * cos(angleRadian);
+        int yPos = 50 * sin(angleRadian);
+        m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[0], Vector2D(xPos,yPos));
+
+        current_Angle += 360 / (Prm.NumAgents/2 - 1);
+    }
+}
 
 //------------------------- Set Crosshair ------------------------------------
 //
@@ -354,7 +360,34 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
           }
         }
         break;
+    case 'Z':
+    {
+        //g_GameWorld->get_Vehicle(0)->Steering()->OffsetPursuitOff();
+        m_Vehicles[0]->Steering()->WanderOff();
+        m_Vehicles[0]->setControlKey(true);
 
+
+        //Protect();
+        //g_GameWorld->get_Vehicle(0)->Steering()->SeekOn();
+        //m_Vehicles[0]->setVelocity(vectWordSpace);
+    }
+    case 'Q':
+    {
+        m_Vehicles[0]->Steering()->WanderOff();
+        m_Vehicles[0]->setControlKey(true);
+        m_Vehicles[0]->setVelocityKey(Vector2D(0, -1));
+    }
+    case 'S':
+    {
+        m_Vehicles[0]->Steering()->WanderOff();
+        //m_Vehicles[0]->setVelocity(Vector2D(-1, 0));
+    }
+    case 'D':
+    {
+        m_Vehicles[0]->Steering()->WanderOff();
+        m_Vehicles[0]->Right();
+       // m_Vehicles[0]->setVelocity(Vector2D(0, 1));
+    }
   }//end switch
 }
 

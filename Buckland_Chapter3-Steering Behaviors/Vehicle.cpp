@@ -6,7 +6,7 @@
 #include "GameWorld.h"
 #include "misc/CellSpacePartition.h"
 #include "misc/cgdi.h"
-
+#include <iostream>
 using std::vector;
 using std::list;
 
@@ -71,10 +71,15 @@ void Vehicle::Update(double time_elapsed)
 
 
   Vector2D SteeringForce;
-
+  
   //calculate the combined force from each steering behavior in the 
   //vehicle's list
-  SteeringForce = m_pSteering->Calculate();
+  if(!getControlKey()){
+    SteeringForce = m_pSteering->Calculate();
+  }else{
+      SteeringForce = Vector2D(0,0);
+  }
+  
     
   //Acceleration = Force/Mass
   Vector2D acceleration = SteeringForce / m_dMass;
@@ -190,4 +195,27 @@ void Vehicle::InitializeBuffer()
   {
     m_vecVehicleVB.push_back(vehicle[vtx]);
   }
+}
+
+void Vehicle::setControlKey(bool b){
+	m_controlKey = b;
+}
+
+bool Vehicle::getControlKey(){
+	return m_controlKey;
+}
+
+void  Vehicle::Right() {
+    this->SetVelocity(m_vVelocity + Side() * MaxTurnRate());
+}
+
+
+void Vehicle::setVelocityKey(Vector2D vect) {
+    //project the target into world space
+    Vector2D vectWordSpace = PointToWorldSpace(vect,
+        this->Heading(),
+        this->Side(),
+        this->Pos());
+
+    this->SetVelocity( vectWordSpace*MaxSpeed());
 }

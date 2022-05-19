@@ -3,7 +3,6 @@
 class AgentLeader : public Vehicle
 {
 protected :
-	bool controlKey = false;
 	Vector2D getVehicleAcceleration();
 
 public :
@@ -19,5 +18,6 @@ public :
 		double    scale);
 
 	~AgentLeader();
+
 };
 

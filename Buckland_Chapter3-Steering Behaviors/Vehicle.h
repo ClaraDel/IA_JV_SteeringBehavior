@@ -63,6 +63,8 @@ private:
   Vehicle(const Vehicle&);
   Vehicle& operator=(const Vehicle&);
 
+protected :
+	bool m_controlKey = false;
 
 public:
 
@@ -97,7 +99,11 @@ public:
   void        ToggleSmoothing(){m_bSmoothingOn = !m_bSmoothingOn;}
   
   double       TimeElapsed()const{return m_dTimeElapsed;}
- 
+
+  bool getControlKey();
+	void setControlKey(bool b);
+    void Right();
+    void setVelocityKey(Vector2D vect);
 };
 
 

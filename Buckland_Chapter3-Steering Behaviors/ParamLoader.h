@@ -50,6 +50,7 @@ private:
     ArriveWeight            = GetNextParameterFloat() * SteeringForceTweaker;
     PursuitWeight           = GetNextParameterFloat() * SteeringForceTweaker;
     OffsetPursuitWeight     = GetNextParameterFloat() * SteeringForceTweaker;
+    OffsetDistance          = GetNextParameterFloat() * SteeringForceTweaker;
     InterposeWeight         = GetNextParameterFloat() * SteeringForceTweaker;
     HideWeight              = GetNextParameterFloat() * SteeringForceTweaker;
     EvadeWeight             = GetNextParameterFloat() * SteeringForceTweaker;
@@ -114,6 +115,7 @@ public:
   double ArriveWeight    ;
   double PursuitWeight   ;
   double OffsetPursuitWeight;
+  double OffsetDistance  ;
   double InterposeWeight ;
   double HideWeight      ;
   double EvadeWeight     ;

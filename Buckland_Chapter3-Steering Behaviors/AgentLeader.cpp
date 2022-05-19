@@ -24,7 +24,8 @@ AgentLeader::AgentLeader(GameWorld* world,
 	this->SetScale(Vector2D(10, 10));
 }
 
-
 AgentLeader::~AgentLeader()
 {
 }
+
+
