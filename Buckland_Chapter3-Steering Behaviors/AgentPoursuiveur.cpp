@@ -18,7 +18,6 @@ AgentPoursuiveur::AgentPoursuiveur(GameWorld* world,
 }
 
 
-
 AgentPoursuiveur::~AgentPoursuiveur(){}
 
 Vehicle* AgentPoursuiveur::GetAgentLeader() {

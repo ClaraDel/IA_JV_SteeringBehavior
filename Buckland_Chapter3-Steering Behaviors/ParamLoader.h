@@ -56,6 +56,7 @@ private:
     EvadeWeight             = GetNextParameterFloat() * SteeringForceTweaker;
     FollowPathWeight        = GetNextParameterFloat() * SteeringForceTweaker;
 
+
     ViewDistance            = GetNextParameterFloat();
     MinDetectionBoxLength   = GetNextParameterFloat();
     WallDetectionFeelerLength=GetNextParameterFloat();
@@ -71,6 +72,8 @@ private:
     prEvade                 = GetNextParameterFloat();
     prHide                  = GetNextParameterFloat();
     prArrive                = GetNextParameterFloat();
+
+    arriveDist              = GetNextParameterFloat();
 
     MaxTurnRatePerSecond    = Pi;
   }
@@ -145,6 +148,7 @@ public:
   double prHide;
   double prArrive;
   
+  double arriveDist;
 };
 
 

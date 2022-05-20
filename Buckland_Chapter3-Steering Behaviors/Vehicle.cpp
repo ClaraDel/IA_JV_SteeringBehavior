@@ -97,8 +97,8 @@ void Vehicle::Update(double time_elapsed)
   //update the heading if the vehicle has a non zero velocity
   if (m_vVelocity.LengthSq() > 0.00000001)
   {    
-    m_vHeading = Vec2DNormalize(m_vVelocity);
-
+    //m_vHeading = Vec2DNormalize(m_vVelocity);
+      m_vHeading = Vec2DNormalize(m_vVelocity);
     m_vSide = m_vHeading.Perp();
   }
 

@@ -51,8 +51,9 @@ GameWorld::GameWorld(int cx, int cy):
   double border = 30;
   m_pPath = new Path(5, border, border, cx-border, cy-border, true); 
 
-  Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-      cy / 2.0 + RandomClamped() * cy / 2.0);
+  //Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+      //cy / 2.0 + RandomClamped() * cy / 2.0);
+  Vector2D SpawnPos = CalculateSpawnPos(0, 21);
   Vehicle* pLeader = nullptr;
   pLeader = new AgentLeader(this,
       SpawnPos,                 //initial position
@@ -60,7 +61,7 @@ GameWorld::GameWorld(int cx, int cy):
       Vector2D(0, 0),            //velocity
       Prm.VehicleMass,          //mass
       Prm.MaxSteeringForce,     //max force
-      Prm.MaxSpeed / 2,             //max velocity
+      Prm.MaxSpeed/3,             //max velocity
       Prm.MaxTurnRatePerSecond, //max turn rate
       Prm.VehicleScale);        //scale
 
@@ -71,19 +72,22 @@ GameWorld::GameWorld(int cx, int cy):
   for (int a = 0; a <20; a++)
   {
       //determine a random starting position
-      Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-          cy / 2.0 + RandomClamped() * cy / 2.0);
-
+      /*Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+          cy / 2.0 + RandomClamped() * cy / 2.0);*/
+      //Vector2D SpawnPos = Vector2D(a*5+ cx / 2.0, a*5 + cy / 2.0);
+      Vector2D SpawnPos = CalculateSpawnPos(a+1, 21);
+      double maxSpeed = Prm.MaxSpeed / 3 + a * 3 / Prm.MaxSpeed;
       AgentPoursuiveur* pVehicle = new AgentPoursuiveur(this,
           SpawnPos,                 //initial position
           RandFloat() * TwoPi,        //start rotation
           Vector2D(0, 0),            //velocity
           Prm.VehicleMass,          //mass
           Prm.MaxSteeringForce,     //max force
-          Prm.MaxSpeed,             //max velocity
+          maxSpeed,             //max velocity
           Prm.MaxTurnRatePerSecond, //max turn rate
           Prm.VehicleScale,		 //Scale
-          m_Vehicles.back()); //Vehicle to pursuit
+          /*m_Vehicles.back()*/
+          m_Vehicles[a]); //Vehicle to pursuit
 
       m_Vehicles.push_back(pVehicle);
 
@@ -91,7 +95,7 @@ GameWorld::GameWorld(int cx, int cy):
       m_pCellSpace->AddEntity(pVehicle);
       
       pVehicle->Steering()->SeparationOn();
-      pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(Prm.OffsetDistance, 0));
+      pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(Prm.OffsetDistance/15, 0));
       
   }
 
@@ -101,19 +105,19 @@ GameWorld::GameWorld(int cx, int cy):
 /* m_Vehicles[Prm.NumAgents - 1]->Steering()->FlockingOff();
   m_Vehicles[Prm.NumAgents-1]->SetScale(Vector2D(10, 10));
   m_Vehicles[Prm.NumAgents-1]->Steering()->WanderOn();
-  m_Vehicles[Prm.NumAgents-1]->SetMaxSpeed(70);
+  m_Vehicles[Prm.NumAgents-1]->SetMaxSpeed(70);*/
 
-
-   for (int i=0; i<Prm.NumAgents-1; ++i)
-  {
-    m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents-1]);
-
-  }*/
 #endif
  
   //create any obstacles or walls
   //CreateObstacles();
-  //CreateWalls();
+  CreateWalls();
+
+  for (unsigned int i = 0; i < m_Vehicles.size(); ++i)
+  {
+      m_Vehicles[i]->Steering()->WallAvoidanceOn();
+  }
+
 }
 
 
@@ -154,6 +158,10 @@ void GameWorld::Update(double time_elapsed)
   for (unsigned int a=0; a<m_Vehicles.size(); ++a)
   {
     m_Vehicles[a]->Update(time_elapsed);
+    if (a > 0 && !m_Vehicles[0]->getControlKey()) {
+        m_Vehicles[a]->SetHeading(Vec2DNormalize((m_Vehicles[a - 1]->Pos() - m_Vehicles[a]->Pos())));
+    }
+    
   }
 }
   
@@ -249,10 +257,25 @@ void GameWorld::Pursuit()
 {
     for (int i = 1; i < Prm.NumAgents; i++)
     {
-        m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[i-1], Vector2D(Prm.OffsetDistance, 0));
+        m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[i-1], Vector2D(Prm.OffsetDistance/20, 0));
     }
 }
 
+//--------------------------- Protect -----------------------------
+//
+
+//------------------------------------------------------------------------
+Vector2D GameWorld::CalculateSpawnPos(int i, int nbrVehicule)
+{
+    double angleRadian = 2*Pi / (nbrVehicule +2);
+    double angleSpawn = angleRadian * i;
+
+   int xPos = m_cxClient / 2 + m_cxClient /3 * cos(angleSpawn);
+   int yPos = m_cyClient / 2 + m_cyClient /3 * sin(angleSpawn);
+
+    
+    return Vector2D(xPos, yPos);
+}
 
 //--------------------------- Protect -----------------------------
 //
@@ -268,9 +291,19 @@ void GameWorld::Protect()
 
         int xPos = 50 * cos(angleRadian);
         int yPos = 50 * sin(angleRadian);
+        m_Vehicles[i]->SetMaxSpeed(Prm.MaxSpeed);
         m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[0], Vector2D(xPos,yPos));
 
         current_Angle += 360 / (Prm.NumAgents/2 - 1);
+    }
+    m_Vehicles[Prm.NumAgents / 2]->Steering()->OffsetPursuitOn(m_Vehicles[Prm.NumAgents / 2-1], Vector2D(Prm.OffsetDistance / 10, 0));
+}
+
+void GameWorld::StopProtect() {
+    for (int i = 1; i < Prm.NumAgents / 2; i++)
+    {
+        m_Vehicles[i]->Steering()->OffsetPursuitOn(m_Vehicles[i-1], Vector2D(Prm.OffsetDistance/10, 0));
+
     }
 }
 
@@ -303,6 +336,7 @@ void GameWorld::HandleKeyUp(WPARAM wParam)
 {
   m_Vehicles[0]->Steering()->WanderOn();
   m_Vehicles[0]->setControlKey(false);
+  StopProtect();
   switch(wParam)
   {
   case 'U':
