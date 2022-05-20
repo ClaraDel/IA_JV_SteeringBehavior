@@ -334,9 +334,7 @@ void GameWorld::SetCrosshair(POINTS p)
 //------------------------- HandleKeyPresses -----------------------------
 void GameWorld::HandleKeyUp(WPARAM wParam)
 {
-  m_Vehicles[0]->Steering()->WanderOn();
-  m_Vehicles[0]->setControlKey(false);
-  StopProtect();
+
   switch(wParam)
   {
   case 'U':
@@ -396,6 +394,8 @@ void GameWorld::HandleKeyUp(WPARAM wParam)
         }
         break;
   }//end switch
+
+
 }
 
 void GameWorld::HandleKeyDown(WPARAM wParam)
@@ -435,6 +435,12 @@ void GameWorld::HandleKeyDown(WPARAM wParam)
         Protect();
         break;
 
+    }
+    case 'C' :
+    {
+        m_Vehicles[0]->Steering()->WanderOn();
+        m_Vehicles[0]->setControlKey(false);
+        StopProtect();
     }
     break;
     }
