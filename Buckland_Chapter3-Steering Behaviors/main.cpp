@@ -124,7 +124,7 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
             }
 
             break;
-           
+            
 
         }//end switch
 
