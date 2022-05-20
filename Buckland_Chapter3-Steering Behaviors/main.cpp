@@ -129,13 +129,20 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
         }//end switch
 
         //handle any others
-        g_GameWorld->HandleKeyPresses(wParam);
+        g_GameWorld->HandleKeyUp(wParam);
         
       }//end WM_KEYUP
 
       break;
 
-    
+    case WM_KEYDOWN:
+    {
+        //handle any others
+        g_GameWorld->HandleKeyDown(wParam);
+
+    }//end WM_KEDDOWN
+    break;
+
     case WM_PAINT:
       {
  		       

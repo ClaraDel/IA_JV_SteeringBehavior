@@ -299,7 +299,7 @@ void GameWorld::SetCrosshair(POINTS p)
 
 
 //------------------------- HandleKeyPresses -----------------------------
-void GameWorld::HandleKeyPresses(WPARAM wParam)
+void GameWorld::HandleKeyUp(WPARAM wParam)
 {
 
   switch(wParam)
@@ -360,6 +360,14 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
           }
         }
         break;
+  }//end switch
+}
+
+void GameWorld::HandleKeyDown(WPARAM wParam)
+{
+
+    switch (wParam)
+    {
     case 'Z':
     {
         m_Vehicles[0]->Steering()->WanderOff();
@@ -393,9 +401,9 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
         break;
 
     }
-  }//end switch
+    break;
+    }
 }
-
 
 
 //-------------------------- HandleMenuItems -----------------------------
