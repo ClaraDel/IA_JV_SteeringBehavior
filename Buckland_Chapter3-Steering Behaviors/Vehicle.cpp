@@ -77,7 +77,8 @@ void Vehicle::Update(double time_elapsed)
   if(!getControlKey()){
     SteeringForce = m_pSteering->Calculate();
   }else{
-      SteeringForce = Vector2D(0,0);
+      double dist = m_Steering.Length();
+      SteeringForce = m_Steering / dist * MaxSpeed() - Velocity();
   }
   
     
@@ -212,10 +213,20 @@ void  Vehicle::Right() {
 
 void Vehicle::setVelocityKey(Vector2D vect) {
     //project the target into world space
-    Vector2D vectWordSpace = PointToWorldSpace(vect,
+    /*Vector2D vectWordSpace = PointToWorldSpace(vect,
         this->Heading(),
         this->Side(),
         this->Pos());
 
-    this->SetVelocity( vectWordSpace*MaxSpeed());
+    this->SetVelocity( vectWordSpace*MaxSpeed());*/
+    vect *= MaxSpeed() * MaxTurnRate();
+    m_Steering += vect;
+
+    double length = sqrt(pow(m_Steering.x, 2) + pow(m_Steering.y, 2));
+    m_Steering.x /= length;
+    m_Steering.y /= length;
+
+    m_Steering.x *= MaxSpeed();
+    m_Steering.y *= MaxSpeed();
+
 }

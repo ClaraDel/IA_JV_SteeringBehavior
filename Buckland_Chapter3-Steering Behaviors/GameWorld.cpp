@@ -362,31 +362,36 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
         break;
     case 'Z':
     {
-        //g_GameWorld->get_Vehicle(0)->Steering()->OffsetPursuitOff();
         m_Vehicles[0]->Steering()->WanderOff();
         m_Vehicles[0]->setControlKey(true);
-
-
-        //Protect();
-        //g_GameWorld->get_Vehicle(0)->Steering()->SeekOn();
-        //m_Vehicles[0]->setVelocity(vectWordSpace);
+        m_Vehicles[0]->setVelocityKey(Vector2D(0, -1));
+        Protect();
+        break;
     }
     case 'Q':
     {
         m_Vehicles[0]->Steering()->WanderOff();
         m_Vehicles[0]->setControlKey(true);
-        m_Vehicles[0]->setVelocityKey(Vector2D(0, -1));
+        m_Vehicles[0]->setVelocityKey(Vector2D(-1, 0));
+        Protect();
+        break;
     }
     case 'S':
     {
         m_Vehicles[0]->Steering()->WanderOff();
-        //m_Vehicles[0]->setVelocity(Vector2D(-1, 0));
+        m_Vehicles[0]->setControlKey(true);
+        m_Vehicles[0]->setVelocityKey(Vector2D(0, 1));
+        Protect();
+        break;
     }
     case 'D':
     {
         m_Vehicles[0]->Steering()->WanderOff();
-        m_Vehicles[0]->Right();
-       // m_Vehicles[0]->setVelocity(Vector2D(0, 1));
+        m_Vehicles[0]->setControlKey(true);
+        m_Vehicles[0]->setVelocityKey(Vector2D(1, 0));
+        Protect();
+        break;
+
     }
   }//end switch
 }

@@ -44,6 +44,8 @@ private:
   //vector smoothed over the last few frames
   Vector2D             m_vSmoothedHeading;
 
+  Vector2D             m_Steering;
+
   //when true, smoothing is active
   bool                  m_bSmoothingOn;
   
