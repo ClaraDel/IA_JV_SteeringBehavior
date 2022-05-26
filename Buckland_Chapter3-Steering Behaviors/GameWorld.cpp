@@ -474,20 +474,21 @@ void GameWorld::HandleKeyDown(WPARAM wParam)
         break;
 
     }
-    case 'C' :
-    {
-        LeaderFollowing();
-        m_Vehicles[0]->Steering()->WanderOn();
-        m_Vehicles[0]->setControlKey(false);
-        StopProtect();
-        break;
-    }
+    
 
     case 'V' :
     {
         PositionV();
         break;
 
+    }
+    case 'C':
+    {
+        LeaderFollowing();
+        m_Vehicles[0]->Steering()->WanderOn();
+        m_Vehicles[0]->setControlKey(false);
+        StopProtect();
+        break;
     }
 
     break;
