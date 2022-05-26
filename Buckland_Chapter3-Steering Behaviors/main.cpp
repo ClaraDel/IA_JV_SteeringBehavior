@@ -51,6 +51,7 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
          //a RECT and then ask Windows to fill in our RECT structure with
          //the client window size. Then we assign to cxClient and cyClient 
          //accordingly
+
 			   RECT rect;
 
 			   GetClientRect(hwnd, &rect);

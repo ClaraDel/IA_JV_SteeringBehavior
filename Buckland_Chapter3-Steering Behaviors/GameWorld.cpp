@@ -51,75 +51,10 @@ GameWorld::GameWorld(int cx, int cy):
   double border = 30;
   m_pPath = new Path(5, border, border, cx-border, cy-border, true); 
 
-  //Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-      //cy / 2.0 + RandomClamped() * cy / 2.0);
-  Vector2D SpawnPos = CalculateSpawnPos(0, 21);
-  Vehicle* pLeader = nullptr;
-  pLeader = new AgentLeader(this,
-      SpawnPos,                 //initial position
-      RandFloat() * TwoPi,        //start rotation
-      Vector2D(0, 0),            //velocity
-      Prm.VehicleMass,          //mass
-      Prm.MaxSteeringForce,     //max force
-      Prm.MaxSpeed/3,             //max velocity
-      Prm.MaxTurnRatePerSecond, //max turn rate
-      Prm.VehicleScale);        //scale
+  
+  LeaderFollowing();
+  
 
-
-  m_Vehicles.push_back(pLeader);
-  m_pCellSpace->AddEntity(pLeader);
-
-  /*for (int a = 0; a <Prm.NumAgents; a++)
-  {
-      //determine a random starting position
-      Vector2D SpawnPos = CalculateSpawnPos(a+1, 21);
-      double maxSpeed = Prm.MaxSpeed / 3 + a * 3 / Prm.MaxSpeed;
-      AgentPoursuiveur* pVehicle = new AgentPoursuiveur(this,
-          SpawnPos,                 //initial position
-          RandFloat() * TwoPi,        //start rotation
-          Vector2D(0, 0),            //velocity
-          Prm.VehicleMass,          //mass
-          Prm.MaxSteeringForce,     //max force
-          maxSpeed,             //max velocity
-          Prm.MaxTurnRatePerSecond, //max turn rate
-          Prm.VehicleScale,		 //Scale
-          
-          m_Vehicles[a]); //Vehicle to pursuit
-
-      m_Vehicles.push_back(pVehicle);
-
-      //add it to the cell subdivision
-      m_pCellSpace->AddEntity(pVehicle);
-      
-      pVehicle->Steering()->SeparationOn();
-      pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(Prm.OffsetDistance/15, 0));
-      
-  }*/
-
-  for (int i = 0; i < Prm.NumAgents; i++)
-  {
-      //determine a random starting position
-      Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-          cy / 2.0 + RandomClamped() * cy / 2.0);
-
-      Vehicle* p_vehicle = new Vehicle(this,
-          SpawnPos,                 //initial position
-          RandFloat() * TwoPi,        //start rotation
-          Vector2D(0, 0),            //velocity
-          Prm.VehicleMass,          //mass
-          Prm.MaxSteeringForce,     //max force
-          Prm.MaxSpeed,             //max velocity
-          Prm.MaxTurnRatePerSecond, //max turn rate
-          Prm.VehicleScale		 //Scale
-      );
-      p_vehicle->Steering()->FlockingVOn();
-      m_Vehicles.push_back(p_vehicle);
-
-      //add it to the cell subdivision
-      m_pCellSpace->AddEntity(p_vehicle);
-
-      
-  }
 
 
 #define SHOAL
@@ -131,14 +66,6 @@ GameWorld::GameWorld(int cx, int cy):
 
 #endif
  
-  //create any obstacles or walls
-  //CreateObstacles();
-  //CreateWalls();
-
-  //for (unsigned int i = 0; i < m_Vehicles.size(); ++i)
-  //{
-  //    m_Vehicles[i]->Steering()->WallAvoidanceOn();
-  //}
 
 }
 
@@ -329,6 +256,95 @@ void GameWorld::StopProtect() {
     }
 }
 
+void GameWorld::PositionV() {
+
+    m_Vehicles.clear();
+    for (int i = 1; i <= Prm.NumAgents; i++)
+    {
+        //determine a random starting position
+        //Vector2D SpawnPos = CalculateSpawnPos(i + 1, 21);
+
+        Vector2D SpawnPos = Vector2D(m_cxClient / 2.0 + RandomClamped() * m_cxClient / 2.0,
+            m_cyClient / 2.0 + RandomClamped() * m_cyClient / 2.0);
+
+        Vehicle* p_vehicle = new Vehicle(this,
+            SpawnPos,                 //initial position
+            RandFloat() * TwoPi,        //start rotation
+            Vector2D(0, 0),            //velocity
+            Prm.VehicleMass,          //mass
+            Prm.MaxSteeringForce,     //max force
+            Prm.MaxSpeed,             //max velocity
+            Prm.MaxTurnRatePerSecond, //max turn rate
+            Prm.VehicleScale		 //Scale
+        );
+        p_vehicle->Steering()->FlockingVOn();
+        p_vehicle->SetMaxSpeed(60);
+        m_Vehicles.push_back(p_vehicle);
+
+        //add it to the cell subdivision
+        m_pCellSpace->AddEntity(p_vehicle);
+
+
+    }
+}
+
+void GameWorld::LeaderFollowing() {
+    //Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+      //cy / 2.0 + RandomClamped() * cy / 2.0);
+    m_Vehicles.clear();
+    Vector2D SpawnPos = CalculateSpawnPos(0, 21);
+    Vehicle* pLeader = nullptr;
+    pLeader = new AgentLeader(this,
+        SpawnPos,                 //initial position
+        RandFloat() * TwoPi,        //start rotation
+        Vector2D(0, 0),            //velocity
+        Prm.VehicleMass,          //mass
+        Prm.MaxSteeringForce,     //max force
+        40,             //max velocity
+        Prm.MaxTurnRatePerSecond, //max turn rate
+        Prm.VehicleScale);        //scale
+
+
+    m_Vehicles.push_back(pLeader);
+    m_pCellSpace->AddEntity(pLeader);
+
+    for (int a = 0; a < Prm.NumAgents; a++)
+    {
+        //determine a random starting position
+        Vector2D SpawnPos = CalculateSpawnPos(a + 1, 21);
+        double maxSpeed = Prm.MaxSpeed / 3 + a * 3 / Prm.MaxSpeed;
+        AgentPoursuiveur* pVehicle = new AgentPoursuiveur(this,
+            SpawnPos,                 //initial position
+            RandFloat() * TwoPi,        //start rotation
+            Vector2D(0, 0),            //velocity
+            Prm.VehicleMass,          //mass
+            Prm.MaxSteeringForce,     //max force
+            maxSpeed,             //max velocity
+            Prm.MaxTurnRatePerSecond, //max turn rate
+            Prm.VehicleScale,		 //Scale
+
+            m_Vehicles[a]); //Vehicle to pursuit
+
+        m_Vehicles.push_back(pVehicle);
+
+        //add it to the cell subdivision
+        m_pCellSpace->AddEntity(pVehicle);
+
+        pVehicle->Steering()->SeparationOn();
+        pVehicle->Steering()->OffsetPursuitOn(pVehicle->GetAgentLeader(), Vector2D(Prm.OffsetDistance / 20, 0));
+
+        //create any obstacles or walls
+        CreateWalls();
+
+        for (unsigned int i = 0; i < m_Vehicles.size(); ++i)
+        {
+          m_Vehicles[i]->Steering()->WallAvoidanceOn();
+        }
+
+
+    }
+}
+
 //------------------------- Set Crosshair ------------------------------------
 //
 //  The user can set the position of the crosshair by right clicking the
@@ -460,10 +476,20 @@ void GameWorld::HandleKeyDown(WPARAM wParam)
     }
     case 'C' :
     {
+        LeaderFollowing();
         m_Vehicles[0]->Steering()->WanderOn();
         m_Vehicles[0]->setControlKey(false);
         StopProtect();
+        break;
     }
+
+    case 'V' :
+    {
+        PositionV();
+        break;
+
+    }
+
     break;
     }
 }

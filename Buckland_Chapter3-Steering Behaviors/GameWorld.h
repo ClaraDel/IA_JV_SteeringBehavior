@@ -127,6 +127,9 @@ public:
   void Pursuit();
   void Protect(); 
   void StopProtect();
+
+  void PositionV();
+  void LeaderFollowing();
   Vector2D CalculateSpawnPos(int i, int nbrVehicule);
 
   int   cxClient()const{return m_cxClient;}
