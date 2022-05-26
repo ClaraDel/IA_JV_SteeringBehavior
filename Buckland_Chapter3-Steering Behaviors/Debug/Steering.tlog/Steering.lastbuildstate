@@ -1,2 +1,2 @@
-PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.29.30133:TargetPlatformVersion=10.0.18362.0:
-Debug|Win32|C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\|
+PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.29.30133:VCServicingVersionATL=14.29.30136:VCServicingVersionCrtHeaders=14.29.30136:VCServicingVersionCompilers=14.29.30136:TargetPlatformVersion=10.0.18362.0:
+Debug|Win32|D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\|

@@ -150,6 +150,10 @@ void Vehicle::Render()
     gdi->GreenPen();
   }
 
+  if (Steering()->isFlockingVOn()) {
+      gdi->BlackPen();
+  }
+
   if (isSmoothingOn())
   { 
     m_vecVehicleVBTrans = WorldTransform(m_vecVehicleVB,

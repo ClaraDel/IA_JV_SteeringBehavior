@@ -1,28 +1,14 @@
-﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Vehicle.cpp
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(234,11): warning C4018: '>': signed/unsigned mismatch
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(228): message : while compiling class template member function 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const'
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(265): message : see reference to function template instantiation 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const' being compiled
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(262): message : while compiling class template member function 'void CellSpacePartition<Vehicle *>::UpdateEntity(const entity &,Vector2D)'
-          with
-          [
-              entity=Vehicle *
-          ]
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\Vehicle.cpp(107): message : see reference to function template instantiation 'void CellSpacePartition<Vehicle *>::UpdateEntity(const entity &,Vector2D)' being compiled
-          with
-          [
-              entity=Vehicle *
-          ]
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\Vehicle.cpp(107): message : see reference to class template instantiation 'CellSpacePartition<Vehicle *>' being compiled
-  SteeringBehaviors.cpp
-  Path.cpp
+﻿cl : ligne de commande warning D9035: l'option 'Gm' est déconseillée et sera supprimée dans une version ultérieure
   GameWorld.cpp
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(234,11): warning C4018: '>': signed/unsigned mismatch
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(228): message : while compiling class template member function 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const'
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(249): message : see reference to function template instantiation 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const' being compiled
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Common\misc\CellSpacePartition.h(130): message : while compiling class template member function 'CellSpacePartition<Vehicle *>::CellSpacePartition(double,double,int,int,int)'
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(46): message : see reference to function template instantiation 'CellSpacePartition<Vehicle *>::CellSpacePartition(double,double,int,int,int)' being compiled
-C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(46): message : see reference to class template instantiation 'CellSpacePartition<Vehicle *>' being compiled
-  Generating Code...
-Vector2d.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-  Steering.vcxproj -> C:\Users\ferru\OneDrive\Documents\UQAC\IA jeux video\Exo2\code_source_devoir_2\code_source_devoir_2\Buckland_Chapter3-Steering Behaviors\Debug\Steering.exe
+D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(295,13): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(296,13): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(314,18): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(315,18): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+D:\Github\IA_JV_SteeringBehavior\Common\misc\CellSpacePartition.h(234,11): warning C4018: '>' : incompatibilité signed/unsigned
+D:\Github\IA_JV_SteeringBehavior\Common\misc\CellSpacePartition.h(228): message : pendant la compilation de la fonction membre classe modèle 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const'
+D:\Github\IA_JV_SteeringBehavior\Common\misc\CellSpacePartition.h(249): message : voir la référence à l'instanciation de la fonction modèle 'int CellSpacePartition<Vehicle *>::PositionToIndex(const Vector2D &) const' en cours de compilation
+D:\Github\IA_JV_SteeringBehavior\Common\misc\CellSpacePartition.h(130): message : pendant la compilation de la fonction membre classe modèle 'CellSpacePartition<Vehicle *>::CellSpacePartition(double,double,int,int,int)'
+D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(49): message : voir la référence à l'instanciation de la fonction modèle 'CellSpacePartition<Vehicle *>::CellSpacePartition(double,double,int,int,int)' en cours de compilation
+D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\GameWorld.cpp(49): message : voir la référence à l'instanciation classe modèle 'CellSpacePartition<Vehicle *>' en cours de compilation
+Vector2d.obj : warning LNK4075: ' /EDITANDCONTINUE' ignoré à cause de la spécification '/SAFESEH'
+  Steering.vcxproj -> D:\Github\IA_JV_SteeringBehavior\Buckland_Chapter3-Steering Behaviors\Debug\Steering.exe

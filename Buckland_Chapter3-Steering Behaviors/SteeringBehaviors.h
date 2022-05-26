@@ -72,7 +72,9 @@ private:
     interpose          = 0x02000,
     hide               = 0x04000,
     flock              = 0x08000,
+    flocking_v         = 0x20000,
     offset_pursuit     = 0x10000,
+    
   };
 
 private:
@@ -132,6 +134,7 @@ private:
   double        m_dWeightHide;
   double        m_dWeightEvade;
   double        m_dWeightFollowPath;
+  double		m_dWeightFlockingV;
 
   //how far the agent can 'see'
   double        m_dViewDistance;
@@ -223,6 +226,8 @@ private:
   //move the agent along the waypoints in order
   Vector2D FollowPath();
 
+
+
   //this results in a steering force that attempts to steer the vehicle
   //to the center of the vector connecting two moving agents.
   Vector2D Interpose(const Vehicle* VehicleA, const Vehicle* VehicleB);
@@ -233,6 +238,8 @@ private:
 
 
   // -- Group Behaviors -- //
+
+  Vector2D FlockingV(const std::vector<Vehicle*>& agents);
 
   Vector2D Cohesion(const std::vector<Vehicle*> &agents);
   
@@ -256,6 +263,13 @@ private:
   Vector2D CalculateWeightedSum();
   Vector2D CalculatePrioritized();
   Vector2D CalculateDithered();
+
+  Vector2D Accelerate(const std::vector<Vehicle*>& neighbors);
+  Vector2D SlowDown(const std::vector<Vehicle*>& neighbors);
+  Vehicle* getCloserAgent(const std::vector<Vehicle*>& neighbors);
+  Vehicle* getCloserAgentInFront(const std::vector<Vehicle*>& neighbors);
+  Vehicle* getCloserAgentBlokingView(const std::vector<Vehicle*>& neighbors);
+ 
 
   //helper method for Hide. Returns a position located on the other
   //side of an obstacle to the pursuer
@@ -326,6 +340,7 @@ public:
   void HideOn(Vehicle* v){m_iFlags |= hide; m_pTargetAgent1 = v;}
   void OffsetPursuitOn(Vehicle* v1, const Vector2D offset){m_iFlags |= offset_pursuit; m_vOffset = offset; m_pTargetAgent1 = v1;}  
   void FlockingOn(){CohesionOn(); AlignmentOn(); SeparationOn(); WanderOn();}
+  void FlockingVOn() { m_iFlags |= flocking_v; }
 
   void FleeOff()  {if(On(flee))   m_iFlags ^=flee;}
   void SeekOff()  {if(On(seek))   m_iFlags ^=seek;}
@@ -343,6 +358,7 @@ public:
   void HideOff(){if(On(hide)) m_iFlags ^=hide;}
   void OffsetPursuitOff(){if(On(offset_pursuit)) m_iFlags ^=offset_pursuit;}
   void FlockingOff(){CohesionOff(); AlignmentOff(); SeparationOff(); WanderOff();}
+  void FlockingVOff() { if (On(flocking_v)) m_iFlags ^= flocking_v; }
 
   bool isFleeOn(){return On(flee);}
   bool isSeekOn(){return On(seek);}
@@ -352,6 +368,7 @@ public:
   bool isEvadeOn(){return On(evade);}
   bool isCohesionOn(){return On(cohesion);}
   bool isSeparationOn(){return On(separation);}
+  bool isFlockingVOn() { return On(flocking_v);}
   bool isAlignmentOn(){return On(allignment);}
   bool isObstacleAvoidanceOn(){return On(obstacle_avoidance);}
   bool isWallAvoidanceOn(){return On(wall_avoidance);}
