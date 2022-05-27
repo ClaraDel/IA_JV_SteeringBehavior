@@ -259,6 +259,12 @@ void GameWorld::StopProtect() {
 void GameWorld::PositionV() {
 
     m_Vehicles.clear();
+    m_Walls.clear();
+
+    for (unsigned int i = 0; i < m_Vehicles.size(); ++i)
+    {
+        m_Vehicles[i]->Steering()->WallAvoidanceOff();
+    }
     for (int i = 1; i <= Prm.NumAgents; i++)
     {
         //determine a random starting position

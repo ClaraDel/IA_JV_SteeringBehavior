@@ -1205,16 +1205,12 @@ Vector2D SteeringBehavior::Accelerate(const vector<Vehicle*>& neighbors)
     if (NearestAgent) {
         Vector2D ShortestVector = NearestAgent->Pos() - m_pVehicle->Pos();
 
-        //if (ShortestVector.Length() > Prm.MaxDistance)
-        if (ShortestVector.Length() > 55) {
-            m_pVehicle->SetScale(Vector2D(2, 2));
+        if (ShortestVector.Length() > Prm.MaxDistance) {
             return  Arrive(NearestAgent->Pos(), slow);
         }        
         else {
-            m_pVehicle->SetScale(Vector2D(5, 5));
             return Vector2D(0,0);
         }
-        //return OffsetPursuit(neighbors[0], Vector2D(0.1, 0.1));
     }
 }
 
@@ -1262,7 +1258,6 @@ Vector2D SteeringBehavior::FlockingV(const vector<Vehicle*>& neighbors)
     Vector2D SteeringForce = Accelerate(neighbors); //Rule 1
     if (SteeringForce == Vector2D(0, 0))
     {
-        //m_pVehicle->SetScale(Vector2D(6,6));
         //Rule 3
         SteeringForce += SlowDown(neighbors);
 
@@ -1278,12 +1273,13 @@ Vector2D SteeringBehavior::FlockingV(const vector<Vehicle*>& neighbors)
                     m_pVehicle->Side(),
                     m_pVehicle->Pos());
                 Vehicle* ClosestAgentBlockingView = getCloserAgentBlokingView(neighbors);
-                m_pVehicle->SetScale(Vector2D(8, 8));
+               
                 
 
                 //Rule 2
                 if (ClosestAgentBlockingView == nullptr)
                 {
+                   
                     if (LocalPos.y >= 0)
                     {
                         SteeringForce = OffsetPursuit(ClosestAgentInFront, Vector2D(ClosestAgentInFront->Pos().x - 1, ClosestAgentInFront->Pos().y + 2));
@@ -1296,15 +1292,12 @@ Vector2D SteeringBehavior::FlockingV(const vector<Vehicle*>& neighbors)
                 //Rule 4
                 else
                 {
-                    if (LocalPos.y < 0)
-                    {
-                        SteeringForce = OffsetPursuit(ClosestAgentBlockingView, Vector2D(ClosestAgentBlockingView->Pos().x - 1,ClosestAgentBlockingView->Pos().y + 2));
-                    }
-                    else
-                    {
-                        SteeringForce = OffsetPursuit(ClosestAgentBlockingView, Vector2D(ClosestAgentBlockingView->Pos().x - 1, ClosestAgentBlockingView->Pos().y - 2));
-
-                    }
+                    Vector2D ToAgent = ClosestAgentBlockingView->Pos() - m_pVehicle->Pos();
+                    ToAgent.Normalize();
+                    Vector2D vect = ToAgent.Perp();
+                    vect *= m_pVehicle->MaxSpeed();
+                    SteeringForce = Seek(m_pVehicle->Pos() + vect);
+                    
                 }
               
             
@@ -1365,19 +1358,18 @@ Vehicle* SteeringBehavior::getCloserAgentInFront(const vector<Vehicle*>& neighbo
             if (LocalPos.x >= 0)
             {
                 
-                Vector2D ToAgent = m_pVehicle->Pos() - neighbors[a]->Pos();
-                double RelativeHeading = m_pVehicle->Heading().Dot((neighbors[a])->Heading());
+                Vector2D ToAgent = neighbors[a]->Pos()- m_pVehicle->Pos() ;
+                ToAgent.Normalize();
                 
-                /*if ((ToAgent.Dot(m_pVehicle->Heading()) > 0) &&
-                    (RelativeHeading < -0.85))  //acos(0.85)=32 degs
-                {*/
+                if ((ToAgent.Dot(m_pVehicle->Heading()) > 0)) 
+                {
                     if (ShortestVector == Vector2D(0, 0) || ToAgent.Length() < ShortestVector.Length())
                     {
                         // Save the position of the nearest agent
                         NearestAgent = neighbors[a];
                         ShortestVector = ToAgent;
                     }
-                //}
+                }
             }
         }
     }
@@ -1404,16 +1396,15 @@ Vehicle* SteeringBehavior::getCloserAgentBlokingView(const vector<Vehicle*>& nei
                 m_pVehicle->Pos());
             if (LocalPos.x >= 0)
             {
-                Vector2D ToAgent = m_pVehicle->Pos() - neighbors[a]->Pos();
-
+                Vector2D ToAgent = neighbors[a]->Pos() - m_pVehicle->Pos() ;
+                ToAgent.Normalize();
                 
-                /*double RelativeHeading = m_pVehicle->Heading().Dot(neighbors[a]->Heading());
-                if ((ToAgent.Dot(m_pVehicle->Heading()) > 0) &&
-                    (RelativeHeading < -0.95))  //acos(0.95)=18.2 degs
-                {*/
-                        // Save the position of the nearest agent
-                        NearestAgent = neighbors[a];
-                
+                double RelativeHeading = ToAgent.Dot(neighbors[a]->Heading());
+                if ((RelativeHeading < -0.95))  //acos(0.95)=18.2 degs
+                { 
+                    // Save the position of the nearest agent
+                    NearestAgent = neighbors[a];
+                }
             }
 
         }
